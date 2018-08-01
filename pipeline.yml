@@ -72,3 +72,13 @@ jobs:
       GCP_PROJECT_ID: {{gcp_project_id}}
       GCP_REGION: {{gcp_region}}
       GCP_SERVICE_ACCOUNT_KEY: {{gcp_service_account_key}}
+
+- name: bootstrap-terraform-state
+  serial: true
+  plan:
+  - get: pcf-pipelines
+  - task: create-terraform-state
+    params:
+      TERRAFORM_STATEFILE_BUCKET: {{terraform_statefile_bucket}}
+      GCP_SERVICE_ACCOUNT_KEY: {{gcp_service_account_key}}
+    file: pcf-pipelines/install-pcf/gcp/tasks/create-initial-terraform-state/task.yml
