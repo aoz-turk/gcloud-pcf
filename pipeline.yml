@@ -35,14 +35,6 @@ resources:
     product_version: {{opsman_major_minor_version}}
     sort_by: semver
 
-- name: pivnet-elastic-runtime
-  type: pivnet
-  source:
-    api_token: {{pivnet_token}}
-    product_slug: elastic-runtime
-    product_version: {{ert_major_minor_version}}
-    sort_by: semver
-
 jobs:
 - name: wipe-env
   serial_groups: [terraform]
