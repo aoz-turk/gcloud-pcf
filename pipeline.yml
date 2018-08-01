@@ -13,7 +13,7 @@ resources:
   source:
     uri: git@github.com:pivotal-cf/pcf-pipelines.git
     branch: master
-	  tag_filter: v0.23.5
+    tag_filter: v0.23.5
 
 - name: terraform-state
   type: gcs
