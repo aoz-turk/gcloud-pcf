@@ -20,7 +20,6 @@ resources:
     branch: master
     tag_filter: v0.23.5
 
-resources:
 - name: gcloud-pcf
   type: git
   source:
