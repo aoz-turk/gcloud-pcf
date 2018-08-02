@@ -20,6 +20,42 @@ resources:
     branch: master
     tag_filter: v0.23.5
 
+resources:
+- name: gcloud-pcf
+  type: git
+  source:
+    uri: git@github.com:aoz-turk/gcloud-pcf.git
+    branch: master
+    private_key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      MIIEpAIBAAKCAQEA3JY1PlcwQtI9Mol+40MOQYh3l16mBuEQzTTv172+CJaMLI6D
+      T4tgxhLnDbN6G/Ldq/c/lEZXvl39nFjp8CJOseyarKwLSJB8ISrnqw1Z+rWWQ3b7
+      VNOknwwAddUoesi4+llXtR/vB6NKCJ1gqVlqg/bgmIMnSS4i8AYS5e5iob5GxTVK
+      GZxoiR7syXU1lzPyA7VnUAwHqdAmGO3pbojxgk4UzLxVXTNFA87qreEfpWGhAg5Q
+      Axq4FfFeM0lp5rZJJki5qtQ2XXGIjakIrEFs+tNklJAQvRuwn5a7glPM+ommFyh7
+      tORO/56EAa5PmLIlfBmNBsCKaErdaOlKL42E8QIDAQABAoIBAQCPwF/AWad81G/H
+      QG1tgySGNn3hKnA+KWv+nxHyYZe3Fw0QeGtAak9NpcHnXuAj2Jj3WXCYm2LRD4WX
+      3yXNNT5dmxiNkKzlxCrwnnpNMa1CwhXDr4VImYg9kd+26ouvwKEznQeYZNAsBRDZ
+      Hl6A3mGY0Ek7erUebq+cBglIyJqEVjreh0t2g1xi845uxmBHDKXGsm7M1bjqYuJn
+      L5hsB3msqRYCPhJsGsN0i2Y1w6lvXF1gKW3JykWA3HGVanUdZE9IxcMJqfgaUIbR
+      +yDbNY6XMEKAqw3DVvp4b3TyUDJzAFszrIVGgmUCi0LCqBU0A7ssKWg4G6dNwjum
+      9rrDJJ4FAoGBAPfSjjfutlnDJthYYmyMo+sBAg36j+wcmYg1NzOc4msHpyVDmFp0
+      Kj6CM5Xg8OzYKQA3pa3daIYq0cG2JOH4HacLAi4g2nNX8fcQNmGaYAGOrxjiKGG+
+      9qVudMETvRjcB6HOG2cqeooImu0LfsfG8cUmvLuxcvtpMU7OC+xgvn+7AoGBAOPd
+      lSF9UWTQ6h+WsXWmQjIWdjNdsYpEYXzLwWftsPf+YPsn/Qt1dPHqNC/jX/HCkis4
+      W9q3wkBVVqJPVf2gSxojD8K0pzsomIC1qpiZIkU96RmrxCnI2N3O9/OfxmfbC8VV
+      7AeCab+Qi0f/GxLc4Hejk1NJhPib9gKF0sO8y1VDAoGBAK1AxW5y84bTeP+84qpS
+      tHIh1UbiieWepPNliL8LifsbcY4KsKNkHPhwXBIHHUfnYtqlDK39YQqTOut7JFPZ
+      +xkCCDcpfq8up5l6+xnHLCFKmD0ENwkG0TYcf4FQBF4xzSAgkGXSe7Kui2j3JV4T
+      Roj3KPDrAKClDPSz9f/+Lo/rAoGAehBCCg2ao3nyYPeVmqN0hGZZ7Uw8hgf5fSOd
+      OHIwwbhH9WLHf/LssYa3bAvOYrDLIlHviquzaEkOvqXnN5U9hgPQNooVp3AouZIX
+      j+VAYX03uGO2EnggDDoJwz0MyKejl5Nee+tVgKQKqIe01hbyO8SpcA1LKO5LC7Dq
+      ZaZl+gcCgYArH8JGQXUOQIRBpSqbbWtXFJpa/8DrwvMFkzsMijbkOScxffnG2Pcp
+      kdXyyacZR1lRWWsgCmTytYCB1S7f7fyr6nFyY8u4DfwhIfYi3D0x/tQBwFpsaphM
+      nAGpNAJKxg185vw4z3/D/e8kcCY3EP0wnje/ikTlv7kNNP07zqf0WA==
+      -----END RSA PRIVATE KEY-----
+
+
 - name: terraform-state
   type: gcs
   source:
@@ -154,6 +190,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
+    - get: gcloud-pcf
     - get: pivnet-opsmgr
       passed: [create-infrastructure]
       params: {globs: []}
@@ -170,7 +207,7 @@ jobs:
       OPS_MGR_PWD: {{opsman_admin_password}}
       OM_DECRYPTION_PWD: {{opsman_admin_password}}
   - task: configure-director
-    file: pcf-pipelines/install-pcf/gcp/tasks/config-director/task.yml
+    file: gcloud-pcf/tasks/config-director/task.yml
     params:
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPS_MGR_USR: {{opsman_admin_username}}
