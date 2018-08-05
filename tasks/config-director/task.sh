@@ -137,11 +137,11 @@ resource_configuration=$(cat <<-EOF
 {
   "director": {
     "internet_connected": false,
-    "disk_type_id": "$director_disk_size",
-    "vm_type_id": "$vm_type"
+    "disk_type_id": {"id": "$director_disk_size"},
+    "vm_type_id": {"id": "$vm_type"}
   },
   "compilation": {
-    "internet_connected": true
+    "internet_connected": false
   }
 }
 EOF
