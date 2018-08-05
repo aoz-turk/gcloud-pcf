@@ -22,7 +22,7 @@ image_resource:
 
 
 inputs:
-  - name: pcf-pipelines
+  - name: gcloud-pcf
 
 params:
   OPSMAN_CLIENT_ID:
