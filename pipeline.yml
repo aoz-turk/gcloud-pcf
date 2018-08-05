@@ -215,6 +215,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
+    - get: gcloud-pcf
     - get: pivnet-opsmgr
       passed: [deploy-director]
       trigger: true
