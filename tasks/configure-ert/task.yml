@@ -8,6 +8,7 @@ image_resource:
 
 inputs:
 - name: gcloud-pcf
+- name: pcf-pipelines
 - name: terraform-state
 
 run:
