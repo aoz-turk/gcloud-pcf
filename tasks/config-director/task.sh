@@ -141,7 +141,7 @@ resource_configuration=$(cat <<-EOF
     "vm_type_id": "$vm_type"
   },
   "compilation": {
-    "internet_connected": false
+    "internet_connected": true
   }
 }
 EOF
