@@ -123,17 +123,22 @@ director_config=$(cat <<-EOF
 {
   "ntp_servers_string": "0.pool.ntp.org",
   "resurrector_enabled": true,
-  "retry_bosh_deploys": false,
+  "retry_bosh_deploys": true,
   "database_type": "internal",
   "blobstore_type": "local"
 }
 EOF
 )
 
+director-disk-size="102400"
+vm-type="xlarge.disk"
+
 resource_configuration=$(cat <<-EOF
 {
   "director": {
-    "internet_connected": false
+    "internet_connected": false,
+    "disk_type_id": "$director-disk-size",
+    "vm_type_id": "$vm-type"
   },
   "compilation": {
     "internet_connected": false
