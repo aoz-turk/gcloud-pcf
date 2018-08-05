@@ -251,6 +251,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
+    - get: gcloud-pcf
     - get: pivnet-opsmgr
       passed: [upload-ert]
       trigger: true
@@ -258,7 +259,7 @@ jobs:
     - get: terraform-state
 
   - task: configure-ert
-    file: pcf-pipelines/tasks/configure-ert/task.yml
+    file: gcloud-pcf/tasks/configure-ert/task.yml
     params:
       pcf_iaas: gcp
       pcf_az_1: {{gcp_zone_1}}
