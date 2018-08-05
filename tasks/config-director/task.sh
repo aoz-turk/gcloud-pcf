@@ -137,7 +137,7 @@ resource_configuration=$(cat <<-EOF
 {
   "director": {
     "internet_connected": false,
-    "disk_type_id": {"value": "$director_disk_size"},
+    "disk_type_id": {"id":"product_resources_form_director_disk_type_id", "value": "$director_disk_size"},
     "vm_type_id": {"value": "$vm_type"}
   },
   "compilation": {
