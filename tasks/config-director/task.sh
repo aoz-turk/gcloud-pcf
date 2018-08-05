@@ -137,8 +137,8 @@ resource_configuration=$(cat <<-EOF
 {
   "director": {
     "internet_connected": false,
-    "disk_type_id": {"id":"product_resources_form_director_disk_type_id", "value": "$director_disk_size"},
-    "vm_type_id": {"value": "$vm_type"}
+    "persistent_disk": {"size_mb": "$director_disk_size"},
+    "instance_type": {"id": "$vm_type"}
   },
   "compilation": {
     "internet_connected": false
