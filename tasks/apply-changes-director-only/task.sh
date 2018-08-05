@@ -26,5 +26,5 @@ om-linux \
   --username "${OPSMAN_USERNAME}" \
   --password "${OPSMAN_PASSWORD}" \
   apply-changes \
-  --ignore-warnings
+  --ignore-warnings \
   --skip-deploy-products
