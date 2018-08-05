@@ -130,15 +130,15 @@ director_config=$(cat <<-EOF
 EOF
 )
 
-director-disk-size="102400"
-vm-type="xlarge.disk"
+director_disk_size="102400"
+vm_type="xlarge.disk"
 
 resource_configuration=$(cat <<-EOF
 {
   "director": {
     "internet_connected": false,
-    "disk_type_id": "$director-disk-size",
-    "vm_type_id": "$vm-type"
+    "disk_type_id": "$director_disk_size",
+    "vm_type_id": "$vm_type"
   },
   "compilation": {
     "internet_connected": false
