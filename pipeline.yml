@@ -50,6 +50,13 @@ resources:
     product_version: {{ert_major_minor_version}}
     sort_by: semver
 
+- name: pivotal-mysql
+  type: pivnet
+  source:
+    api_token: {{pivnet_token}}
+    product_slug: pivotal-mysql
+    sort_by: semver
+
 jobs:
 - name: wipe-env
   serial_groups: [terraform]
@@ -226,6 +233,43 @@ jobs:
       params:
         globs:
         - "cf*.pivotal"
+  - task: upload-tile
+    file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
+    params:
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPS_MGR_USR: {{opsman_admin_username}}
+      OPS_MGR_PWD: {{opsman_admin_password}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+      IAAS: "google"
+      NO_PROXY: ""
+      OM_IP: ""
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
+
+  - task: stage-tile
+    file: gcloud-pcf/tasks/stage-product/task.yml
+    params:
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_USERNAME: {{opsman_admin_username}}
+      OPSMAN_PASSWORD: {{opsman_admin_password}}
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
+
+- name: upload-mysql
+  serial_groups: [opsman]
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: gcloud-pcf
+    - get: pivnet-opsmgr
+      passed: [deploy-director]
+      trigger: true
+      params: {globs: []}
+    - get: pivnet-product
+      resource: pivotal-mysql
+      params:
+        globs:
+        - "pivotal-mysql*.pivotal"
   - task: upload-tile
     file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
     params:
