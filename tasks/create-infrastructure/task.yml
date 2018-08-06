@@ -56,9 +56,11 @@ params:
   DB_CLOUDSQLDB_TIER:
 
 run:
-  path: sh
-  args: 
+  path: /bin/sh
+  args:
+  - -c 
   - |
     pwd
-    ls 
+    ls
+    ls pcf-pipelines/install-pcf/gcp/terraform 
 #  path: pcf-pipelines/install-pcf/gcp/tasks/create-infrastructure/task.sh
