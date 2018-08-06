@@ -60,7 +60,7 @@ run:
   args:
   - -c 
   - |
-    pwd
-    ls
-    ls pcf-pipelines/install-pcf/gcp/terraform 
+    sed -i -- 's/50/100/g' pcf-pipelines/install-pcf/gcp/terraform/ops_manager.tf
+    sed -i -- 's/"allow-https"/"allow-https", "allow-ssh"/g' pcf-pipelines/install-pcf/gcp/terraform/ops_manager.tf
+    ./pcf-pipelines/install-pcf/gcp/tasks/create-infrastructure/task.sh
 #  path: pcf-pipelines/install-pcf/gcp/tasks/create-infrastructure/task.sh
