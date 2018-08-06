@@ -58,5 +58,7 @@ params:
 run:
   path: sh
   args: 
-  - ls pcf-pipelines/install-pcf/gcp/terraform
+  - |
+    pwd
+    ls 
 #  path: pcf-pipelines/install-pcf/gcp/tasks/create-infrastructure/task.sh
