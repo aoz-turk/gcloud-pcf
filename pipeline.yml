@@ -50,7 +50,7 @@ resources:
     product_version: {{ert_major_minor_version}}
     sort_by: semver
 
-- name: pivotal-mysql
+- name: pivnet-mysql
   type: pivnet
   source:
     api_token: {{pivnet_token}}
@@ -266,7 +266,7 @@ jobs:
       trigger: true
       params: {globs: []}
     - get: pivnet-product
-      resource: pivotal-mysql
+      resource: pivnet-mysql
       params:
         globs:
         - "pivotal-mysql*.pivotal"
@@ -383,6 +383,41 @@ jobs:
 
 
   - task: deploy-ert
+    file: pcf-pipelines/tasks/apply-changes/task.yml
+    params:
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_USERNAME: {{opsman_admin_username}}
+      OPSMAN_PASSWORD: {{opsman_admin_password}}
+      OPSMAN_CLIENT_ID: ""
+      OPSMAN_CLIENT_SECRET: ""
+
+- name: deploy-mysql
+  serial_groups: [opsman]
+  plan:
+  - aggregate:
+    - get: pcf-pipelines
+    - get: gcloud-pcf
+    - get: pivnet-opsmgr
+      passed: [upload-mysql]
+      trigger: true
+      params: {globs: []}
+    - get: terraform-state
+
+  - task: configure-mysql
+    file: gcloud-pcf/tasks/configure-mysql/task.yml
+    image: pcfnorm
+    params:
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
+      OPSMAN_USERNAME: {{opsman_admin_username}}
+      OPSMAN_PASSWORD: {{opsman_admin_password}}
+      AZS: {{services_azs}}
+      BACKUP_SERVER_SSH_USER: {{backup_server_ssh_user}}
+      BACKUP_SERVER_SSH_PRIVATE_KEY: {{backup_server_ssh_private_key}}
+      BACKUP_SERVER_SSH_HOST: {{backup_server_ssh_host}}
+      BACKUP_SERVER_SSH_DIRECTORY: {{backup_server_ssh_directory}}
+      BACKUP_CRON_SCHEDULE: {{mysql_backup_cron_schedule}}
+
+  - task: deploy-mysql
     file: pcf-pipelines/tasks/apply-changes/task.yml
     params:
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}

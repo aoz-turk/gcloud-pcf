@@ -1,0 +1,25 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: pcfnorm/rootfs
+
+inputs:
+- name: gcloud-pcf
+- name: terraform-state
+
+run:
+  path: gcloud-pcf/tasks/configure-mysql/task.sh
+
+params:
+  OPSMAN_DOMAIN_OR_IP_ADDRESS:
+  OPSMAN_USERNAME:
+  OPSMAN_PASSWORD:
+  AZS:
+  BACKUP_SERVER_SSH_USER:
+  BACKUP_SERVER_SSH_PRIVATE_KEY:
+  BACKUP_SERVER_SSH_HOST:
+  BACKUP_SERVER_SSH_DIRECTORY:
+  BACKUP_CRON_SCHEDULE:
