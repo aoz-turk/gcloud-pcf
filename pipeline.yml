@@ -108,13 +108,14 @@ jobs:
   - aggregate:
     - get: terraform-state
     - get: pcf-pipelines
+    - get: gcloud-pcf
     - get: pivnet-opsmgr
       passed: [upload-opsman-image]
       params:
         globs:
         - "*GCP.yml"
   - task: create-infrastructure
-    file: pcf-pipelines/install-pcf/gcp/tasks/create-infrastructure/task.yml
+    file: gcloud-pcf/tasks/create-infrastructure/task.yml
     params:
       GCP_PROJECT_ID: {{gcp_project_id}}
       GCP_REGION: {{gcp_region}}
