@@ -7,10 +7,10 @@ network_assignment="$(jq -n \
   '
   {
     "network": {
-      "name": "Services"
+      "name": "services-1"
     },
     "service_network": {
-      "name": "DynamicServices"
+      "name": "dynamic-services-1"
     },
     "other_availability_zones": ($azs | split(",") | map({name: .})),
     "singleton_availability_zone": ($azs | split(",") | map({name: .})) | .[0]
